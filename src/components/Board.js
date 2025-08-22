@@ -10,6 +10,7 @@ function Board({ squares, onClick, winner }) {
         value={squares[i]}
         onClick={() => onClick(i)}
         isWinning={winner && isWinningSquare(i, winner, squares)}
+        winningColor={winner === 'X' ? 'rgba(244, 67, 54, 0.2)' : winner === 'O' ? 'rgba(33, 150, 243, 0.2)' : null}
       />
     );
   };
@@ -37,21 +38,7 @@ function Board({ squares, onClick, winner }) {
 
   return (
     <div className="board">
-      <div className="board-row">
-        {renderSquare(0)}
-        {renderSquare(1)}
-        {renderSquare(2)}
-      </div>
-      <div className="board-row">
-        {renderSquare(3)}
-        {renderSquare(4)}
-        {renderSquare(5)}
-      </div>
-      <div className="board-row">
-        {renderSquare(6)}
-        {renderSquare(7)}
-        {renderSquare(8)}
-      </div>
+      {Array.from({ length: 9 }, (_, i) => renderSquare(i))}
     </div>
   );
 }

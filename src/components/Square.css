@@ -1,46 +1,72 @@
 .square {
-  width: 80px;
-  height: 80px;
-  background: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 2.5rem;
+  aspect-ratio: 1;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1.5rem;
   font-weight: 700;
+  color: var(--text-primary);
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: 'Poppins', sans-serif;
-  color: #333;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(10px);
+  min-height: 60px;
 }
 
-.square:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  background: #f8f9ff;
+.square::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  opacity: 0;
+  transition: var(--transition);
+  pointer-events: none;
 }
 
-.square:active {
+.square:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: var(--bg-secondary);
+}
+
+.square:hover:not(:disabled)::before {
+  opacity: 0.1;
+}
+
+.square:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.square:disabled {
+  cursor: default;
 }
 
 .square.filled {
-  animation: popIn 0.3s ease-out;
+  animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .square.winning {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-  color: white;
-  animation: winnerPulse 1s ease-in-out infinite;
-  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+  background: var(--winning-color);
+  border: 2px solid var(--winning-border-color);
 }
 
-.square.winning:hover {
-  background: linear-gradient(135deg, #ff5252, #d63031);
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 12px 30px rgba(255, 107, 107, 0.5);
+.square.winning::before {
+  opacity: 0;
+}
+
+/* Colores específicos para X y O */
+.square[data-value="X"] {
+  color: var(--primary);
+}
+
+.square[data-value="O"] {
+  color: var(--secondary);
 }
 
 /* Animaciones */
@@ -58,37 +84,33 @@
   }
 }
 
-@keyframes winnerPulse {
+@keyframes winnerGlow {
   0%, 100% {
-    transform: scale(1);
+    box-shadow: 0 0 30px rgba(0, 188, 212, 0.5);
   }
   50% {
-    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(0, 188, 212, 0.7), 0 0 50px rgba(0, 188, 212, 0.4);
   }
-}
-
-/* Estilos para X y O */
-.square:contains('X') {
-  color: #667eea;
-}
-
-.square:contains('O') {
-  color: #764ba2;
 }
 
 /* Responsive */
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .square {
-    width: 60px;
-    height: 60px;
-    font-size: 2rem;
+    font-size: 1.25rem;
+    min-height: 50px;
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 480px) {
   .square {
-    width: 50px;
-    height: 50px;
-    font-size: 1.5rem;
+    font-size: 1rem;
+    min-height: 45px;
+  }
+}
+
+@media (max-width: 360px) {
+  .square {
+    font-size: 0.875rem;
+    min-height: 40px;
   }
 }

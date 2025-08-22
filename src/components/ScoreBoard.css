@@ -1,0 +1,233 @@
+.score-board {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.score-board::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--success) 0%, var(--warning) 50%, var(--primary) 100%);
+  opacity: 0.02;
+  pointer-events: none;
+}
+
+.score-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.score-header h3 {
+  color: var(--text-primary);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reset-scores-btn {
+  background: linear-gradient(135deg, var(--error), var(--secondary));
+  color: #0f0f23;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(255, 87, 87, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.reset-scores-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.reset-scores-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(255, 87, 87, 0.5);
+}
+
+.reset-scores-btn:hover::before {
+  left: 100%;
+}
+
+.score-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.score-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: var(--radius);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.score-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: var(--transition);
+  pointer-events: none;
+}
+
+.score-item:nth-child(1)::before {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+}
+
+.score-item:nth-child(2)::before {
+  background: linear-gradient(135deg, var(--secondary), var(--accent));
+}
+
+.score-item:nth-child(3)::before {
+  background: linear-gradient(135deg, var(--warning), var(--accent));
+}
+
+.score-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-glow);
+}
+
+.score-item:hover::before {
+  opacity: 0.1;
+}
+
+.score-symbol {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.125rem;
+  position: relative;
+  z-index: 1;
+}
+
+.score-item:nth-child(1) .score-symbol {
+  color: var(--primary);
+}
+
+.score-item:nth-child(2) .score-symbol {
+  color: var(--secondary);
+}
+
+.score-item:nth-child(3) .score-symbol {
+  color: var(--accent);
+}
+
+.score-info {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.score-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.125rem;
+}
+
+.score-percentage {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  background: var(--bg-primary);
+  padding: 0.125rem 0.5rem;
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  display: inline-block;
+}
+
+.total-games {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .score-board {
+    padding: 1.25rem;
+  }
+  
+  .score-stats {
+    gap: 0.75rem;
+  }
+  
+  .score-item {
+    padding: 0.875rem;
+  }
+  
+  .score-symbol {
+    font-size: 1.25rem;
+  }
+  
+  .score-value {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .score-stats {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .score-item {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+  }
+  
+  .score-symbol {
+    margin-bottom: 0;
+  }
+  
+  .score-info {
+    text-align: right;
+  }
+}

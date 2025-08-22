@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Board from './components/Board';
 import GameInfo from './components/GameInfo';
+import ScoreBoard from './components/ScoreBoard';
 
 function App() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [stepNumber, setStepNumber] = useState(0);
   const [xIsNext, setXIsNext] = useState(true);
+  const [scores, setScores] = useState({ X: 0, O: 0, draws: 0 });
+
+  // Cargar puntuaciones guardadas al iniciar
+  useEffect(() => {
+    const savedScores = localStorage.getItem('tateTiScores');
+    if (savedScores) {
+      setScores(JSON.parse(savedScores));
+    }
+  }, []);
 
   const calculateWinner = (squares) => {
     const lines = [
@@ -33,6 +43,20 @@ function App() {
   const winner = calculateWinner(current);
   const isDraw = !winner && current.every(square => square !== null);
 
+  // Actualizar puntuaciones cuando hay un ganador o empate
+  useEffect(() => {
+    if (winner || isDraw) {
+      const newScores = { ...scores };
+      if (winner) {
+        newScores[winner]++;
+      } else if (isDraw) {
+        newScores.draws++;
+      }
+      setScores(newScores);
+      localStorage.setItem('tateTiScores', JSON.stringify(newScores));
+    }
+  }, [winner, isDraw]);
+
   const handleClick = (i) => {
     const historyCopy = history.slice(0, stepNumber + 1);
     const currentCopy = [...current];
@@ -47,48 +71,39 @@ function App() {
     setXIsNext(!xIsNext);
   };
 
-  const jumpTo = (step) => {
-    setStepNumber(step);
-    setXIsNext(step % 2 === 0);
-  };
-
   const resetGame = () => {
     setHistory([Array(9).fill(null)]);
     setStepNumber(0);
     setXIsNext(true);
   };
 
+  const resetScores = () => {
+    const newScores = { X: 0, O: 0, draws: 0 };
+    setScores(newScores);
+    localStorage.setItem('tateTiScores', JSON.stringify(newScores));
+  };
+
   return (
     <div className="app">
       <div className="game-container">
         <h1 className="game-title">TaTeTi</h1>
-        <GameInfo 
-          winner={winner} 
-          isDraw={isDraw} 
-          xIsNext={xIsNext} 
-          onReset={resetGame}
-        />
-        <Board 
-          squares={current} 
-          onClick={handleClick}
-          winner={winner}
-        />
-        <div className="game-history">
-          <h3>Historial de Movimientos</h3>
-          <div className="history-buttons">
-            {history.map((step, move) => {
-              const desc = move ? `Ir al movimiento #${move}` : 'Ir al inicio';
-              return (
-                <button
-                  key={move}
-                  className={`history-btn ${stepNumber === move ? 'active' : ''}`}
-                  onClick={() => jumpTo(move)}
-                >
-                  {desc}
-                </button>
-              );
-            })}
-          </div>
+        
+        <div className="game-main">
+          <GameInfo 
+            winner={winner} 
+            isDraw={isDraw} 
+            xIsNext={xIsNext} 
+            onReset={resetGame}
+          />
+          <Board 
+            squares={current} 
+            onClick={handleClick}
+            winner={winner}
+          />
+          <ScoreBoard 
+            scores={scores} 
+            onReset={resetScores}
+          />
         </div>
       </div>
     </div>
