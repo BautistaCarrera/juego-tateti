@@ -1,0 +1,94 @@
+.square {
+  width: 80px;
+  height: 80px;
+  background: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.square:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background: #f8f9ff;
+}
+
+.square:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.square.filled {
+  animation: popIn 0.3s ease-out;
+}
+
+.square.winning {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  animation: winnerPulse 1s ease-in-out infinite;
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+}
+
+.square.winning:hover {
+  background: linear-gradient(135deg, #ff5252, #d63031);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(255, 107, 107, 0.5);
+}
+
+/* Animaciones */
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes winnerPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Estilos para X y O */
+.square:contains('X') {
+  color: #667eea;
+}
+
+.square:contains('O') {
+  color: #764ba2;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .square {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .square {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+}

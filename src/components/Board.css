@@ -1,0 +1,19 @@
+.board {
+  display: inline-block;
+  background: #667eea;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.board-row {
+  display: flex;
+}
+
+.board-row:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.board-row .square:not(:last-child) {
+  margin-right: 10px;
+}
